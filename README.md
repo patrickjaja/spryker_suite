@@ -1,22 +1,23 @@
-Latest spryker suite (official release 202009) announced on 09.09.2020 11:00 am 
+Latest spryker suite (official release 202009) announced on 09.09.2020 11:00 am provided in a minimal fast setup.
+ - No complexity in setup
+ - Fast and stable
  
 # How to setup (Linux)
 follow [install docs](docker/README.md)
 
-#### Access
-###### Yves
-http://de.www.suite.local
+#### Services (for service versions check [install docs](docker/docker-compose.yml)
+###### PHP
+(Yves) http://de.www.suite.local
 bill.martin@spryker.com/change123
-
-###### Zed
+(Zed)
 http://de.zed.suite.local
 admin@spryker.com/change123
-
-###### Glue
+(Glue)
 http://de.glue.suite.local
+bill.martin@spryker.com/change123
 
 ###### Jenkins
-http://localhost:9090  
+http://localhost:9090
 
 ###### RabbitMQ
 http://localhost:15672
