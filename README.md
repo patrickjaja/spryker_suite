@@ -24,3 +24,5 @@ spryker/mate20mg
 ###### Postgres
 jdbc:postgresql://localhost:5432/postgres
 spryker/mate20mg
+
+[](assets/local_setup.png)
