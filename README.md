@@ -1,22 +1,18 @@
 Latest spryker suite (official release 202009) announced on 09.09.2020 11:00 am provided in a minimal fast setup.
  - No complexity in setup
  - Fast and stable
+ - Native usage in development
  
 # How to setup (Linux)
 follow [install docs](docker/README.md)
 
 #### Services (for service versions check [install docs](docker/docker-compose.yml)
 ###### PHP
-(Yves) http://de.www.suite.local
-bill.martin@spryker.com/change123
+http://de.www.suite.local <br/> bill.martin@spryker.com/change123
 
-(Zed)
-http://de.zed.suite.local
-admin@spryker.com/change123
+http://de.zed.suite.local <br/> admin@spryker.com/change123
 
-(Glue)
-http://de.glue.suite.local
-bill.martin@spryker.com/change123
+http://de.glue.suite.local <br/> bill.martin@spryker.com/change123
 
 ###### Jenkins
 http://localhost:9090
