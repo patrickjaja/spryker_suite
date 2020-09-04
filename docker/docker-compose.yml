@@ -36,7 +36,7 @@ services:
       retries: 5
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
     env_file:
       - ./env/elastic.env
     ports:
