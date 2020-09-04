@@ -25,4 +25,4 @@ spryker/mate20mg
 jdbc:postgresql://localhost:5432/postgres
 spryker/mate20mg
 
-[](assets/local_setup.png)
+![](assets/local_setup.png)
