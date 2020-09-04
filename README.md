@@ -1,7 +1,7 @@
 Latest spryker suite (official release 202009) announced on 09.09.2020 11:00 am provided in a minimal fast setup.
  - No complexity in setup
  - Fast and stable
- - Native usage in development
+ - No abstraction, native docker cli usage in development
  
 Installation Notes [install docs](docker/README.md)
 
