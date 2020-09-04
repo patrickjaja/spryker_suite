@@ -9,9 +9,11 @@ follow [install docs](docker/README.md)
 ###### PHP
 (Yves) http://de.www.suite.local
 bill.martin@spryker.com/change123
+
 (Zed)
 http://de.zed.suite.local
 admin@spryker.com/change123
+
 (Glue)
 http://de.glue.suite.local
 bill.martin@spryker.com/change123
