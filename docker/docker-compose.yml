@@ -1,0 +1,101 @@
+version: "3.0"
+services:
+  app:
+    image: nexusnetsoft/spryker-docker-app:7.4
+    depends_on:
+      - db
+      - elasticsearch
+      - ardb
+      - rabbitmq
+      - jenkins
+    ports:
+      - "80:80"
+      - "10001:10001"
+      - "2222:22"
+    env_file:
+      - ./env/app.env
+    volumes:
+        - ../current:/data/shop/development/current:rw
+        - ./init.d/local-php.ini:/usr/local/etc/php/conf.d/local-php.ini
+    networks:
+      default:
+        aliases:
+          - "de.test-www.suite.local"
+          - "de.test-zed.suite.local"
+
+  db:
+    image: postgres:12-alpine
+    env_file:
+      - ./env/db.env
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+    env_file:
+      - ./env/elastic.env
+    ports:
+      - 9200:9200
+    healthcheck:
+      test: ["CMD", "curl", "-f", "localhost:9200/_cat/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  ardb:
+    image: nexusnetsoft/spryker-docker-ardb:latest
+    ports:
+      - "6379:16379"
+
+  rabbitmq:
+    image: rabbitmq:3.7-management
+    env_file:
+      - ./env/rabbitmq.env
+    ports:
+      - "15672:15672"
+
+  jenkins:
+    image: nexusnetsoft/jenkins-php:7.2
+    env_file:
+      - ./env/app.env
+    ports:
+      - "9090:8080"
+    volumes:
+      - ../current:/data/shop/development/current:rw
+
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - 1080:1080
+
+  chrome:
+    image: selenium/node-chrome:3.14.0-gallium
+    env_file:
+      - ./env/hub.env
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+
+  hub:
+    image: selenium/hub:3.14.0-gallium
+    env_file:
+      - ./env/hub.env
+    ports:
+      - "4444:4444"
+
+volumes:
+  project-data: {}
+  ardb-data: {}
+  elastic-data: {}
+  db-data: {}
+  rabbitmq-data: {}
