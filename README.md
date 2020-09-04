@@ -24,4 +24,5 @@ spryker/mate20mg
 jdbc:postgresql://localhost:5432/postgres
 spryker/mate20mg
 
+###### docker stats (disabled jenkins)
 ![](assets/local_setup.png)
