@@ -26,3 +26,14 @@ spryker/mate20mg
 
 ###### docker stats (disabled jenkins)
 ![](assets/local_setup.png)
+
+
+# podman notes
+
+sysctl net.ipv4.ip_unprivileged_port_start=0
+sysctl -w net.ipv4.ip_unprivileged_port_start=0
+
+sudo usermod --add-subuids 200000-201000 --add-subgids 200000-201000 patrickjaja
+
+root@30f5de311efa:/data/shop/development/current# cat /etc/subuid
+nexus:100000:65536

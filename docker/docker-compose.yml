@@ -4,7 +4,7 @@ services:
     image: nexusnetsoft/spryker-docker-app:7.4
     depends_on:
       - db
-      - elasticsearch
+      - es01
       - ardb
       - rabbitmq
       - jenkins
@@ -35,21 +35,69 @@ services:
       timeout: 5s
       retries: 5
 
-  elasticsearch:
+#  elasticsearch:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+#    env_file:
+#      - ./env/elastic.env
+#    ports:
+#      - 9200:9200
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "localhost:9200/_cat/health"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+
+  es01:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
-    env_file:
-      - ./env/elastic.env
-    ports:
-      - 9200:9200
-    healthcheck:
-      test: ["CMD", "curl", "-f", "localhost:9200/_cat/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+    environment:
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
+    ports:
+      - "9200:9200"
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.9.1
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+#  appsearch:
+#    image: docker.elastic.co/app-search/app-search:7.6.2
+#    environment:
+#      - "elasticsearch.host=http://es01:9200"
+#      - "allow_es_settings_modification=true"
+#      - "JAVA_OPTS=-Xmx512m"
+#    ports:
+#      - "3002:3002"
 
   ardb:
     image: nexusnetsoft/spryker-docker-ardb:latest
@@ -99,3 +147,10 @@ volumes:
   elastic-data: {}
   db-data: {}
   rabbitmq-data: {}
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
