@@ -16,8 +16,8 @@ stores=( DE )
 #docker-compose up -d
 
 # find RMQ and APP container
-rmqcontainer=$(podman ps --filter name=${COMPOSE_PROJECT_NAME}_rabbitmq* -aq)
-appcontainer=$(podman ps --filter name=${COMPOSE_PROJECT_NAME}_app* -aq)
+rmqcontainer=$(docker ps --filter name=${COMPOSE_PROJECT_NAME}_rabbitmq* -aq)
+appcontainer=$(docker ps --filter name=${COMPOSE_PROJECT_NAME}_app* -aq)
 
 
 # wait until RabbitMQ is up
@@ -25,20 +25,20 @@ echo -n "wait until RabbitMQ 🐰 is up"
 #while [ "`docker inspect -f {{.State.Health.Status}} ${rmqcontainer}`" != "healthy" ]; do echo -n ".";sleep 2; done
 
 # create RMQ vhosts
-podman exec -i ${rmqcontainer} rabbitmqctl add_user admin mate20mg
-podman exec -i ${rmqcontainer} rabbitmqctl set_user_tags admin administrator
+docker exec -i ${rmqcontainer} rabbitmqctl add_user admin mate20mg
+docker exec -i ${rmqcontainer} rabbitmqctl set_user_tags admin administrator
 
 for store in "${stores[@]}"
 do
-    podman exec -i ${rmqcontainer} rabbitmqctl add_vhost /${store}_development_zed
-    podman exec -i ${rmqcontainer} rabbitmqctl add_user ${store}_development mate20mg
-    podman exec -i ${rmqcontainer} rabbitmqctl set_user_tags ${store}_development administrator
-    podman exec -i ${rmqcontainer} rabbitmqctl set_permissions -p /${store}_development_zed ${store}_development ".*" ".*" ".*"
-    podman exec -i ${rmqcontainer} rabbitmqctl set_permissions -p /${store}_development_zed admin ".*" ".*" ".*"
+    docker exec -i ${rmqcontainer} rabbitmqctl add_vhost /${store}_development_zed
+    docker exec -i ${rmqcontainer} rabbitmqctl add_user ${store}_development mate20mg
+    docker exec -i ${rmqcontainer} rabbitmqctl set_user_tags ${store}_development administrator
+    docker exec -i ${rmqcontainer} rabbitmqctl set_permissions -p /${store}_development_zed ${store}_development ".*" ".*" ".*"
+    docker exec -i ${rmqcontainer} rabbitmqctl set_permissions -p /${store}_development_zed admin ".*" ".*" ".*"
 done
 
 # install spryker
-#podman exec -i ${appcontainer} composer install -no
+#docker exec -i ${appcontainer} composer install -no
 sudo chmod 777 ../current/data/ -R
 sudo chmod 660 ../current/config/Zed/dev_only_private.key
 
@@ -57,5 +57,5 @@ done
 
 echo -e "👇 ${GREEN}To install application [Development] please execute:${NC}";
 
-echo -e "$ podman exec -it ${COMPOSE_PROJECT_NAME}_app_1 bash"
+echo -e "$ docker exec -it ${COMPOSE_PROJECT_NAME}_app_1 bash"
 echo -e "$ vendor/bin/install DE && chmod 777 -R data/ && chown 1000:1000 -R ."
