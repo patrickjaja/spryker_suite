@@ -10,10 +10,10 @@ export $(cat .env)
 stores=( DE )
 
 # pull images
-#docker-compose pull
+docker-compose pull
 
 # create container, start container, detached
-#docker-compose up -d
+docker-compose up -d
 
 # find RMQ and APP container
 rmqcontainer=$(docker ps --filter name=${COMPOSE_PROJECT_NAME}_rabbitmq* -aq)
